@@ -1,0 +1,74 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 1804; -- 	loadi &B0000000100
+0001: 9801; -- 	out LEDs
+0002: 9000; --     waitFor2: IN Switches
+0003: 2840; --     Sub Bit2
+0004: 7802; --     JNZ waitFor2
+0005: 9000; --     IN     Switches
+0006: 9801; --     OUT    LEDs
+0007: 1038; --     STORE  Pattern
+0008: 9062; -- In sswUp
+0009: 9804; -- out Hex0
+000A: 8024; -- 	CALL   Delay
+000B: 9064; --     IN     sswMSB
+000C: 103B; --     STORE  MaskCount
+000D: 802B; --     CALL   PosToMask
+000E: 1039; --     STORE  UpperMask
+000F: 0838; --     LOAD   Pattern
+0010: 3839; --     AND    UpperMask
+0011: 7817; --     JNZ    Right
+0012: 0838; --     LOAD   Pattern
+0013: 5001; --     SHIFT  1
+0014: 1038; --     STORE  Pattern
+0015: 9801; --     OUT    LEDs
+0016: 5808; --     JUMP   Left
+0017: 8024; --     CALL   Delay
+0018: 9065; --     IN     sswLSB
+0019: 103B; --     STORE  MaskCount
+001A: 802B; --     CALL   PosToMask
+001B: 103A; --     STORE  LowerMask
+001C: 0838; --     LOAD   Pattern
+001D: 383A; --     AND    LowerMask
+001E: 7808; --     JNZ    Left
+001F: 0838; --     LOAD   Pattern
+0020: 5011; --     SHIFT  -1
+0021: 1038; --     STORE  Pattern
+0022: 9801; --     OUT    LEDs
+0023: 5817; --     JUMP   Right
+0024: 9802; --     OUT    Timer
+0025: 9062; -- In sswUp
+0026: 9804; -- out Hex0
+0027: 9002; --     IN     Timer
+0028: 37FB; --     ADDI   -5
+0029: 6025; --     JNEG   WaitingLoop
+002A: 8800; --     RETURN
+002B: 083D; --     LOAD   One
+002C: 103C; --     STORE  MaskVal          ; MaskVal starts at 0000000001
+002D: 083B; --     LOAD   MaskCount
+002E: 7830; --     JNZ    PosToMaskStep
+002F: 5836; --     JUMP   PosToMaskDone
+0030: 37FF; --     ADDI   -1
+0031: 103B; --     STORE  MaskCount        ; decrement remaining shifts
+0032: 083C; --     LOAD   MaskVal
+0033: 5001; --     SHIFT  1
+0034: 103C; --     STORE  MaskVal
+0035: 582D; --     JUMP   PosToMaskLoop
+0036: 083C; --     LOAD   MaskVal
+0037: 8800; --     RETURN
+0038: 0000; -- Pattern:    DW 0
+0039: 0200; -- UpperMask:  DW &B1000000000   ; overwritten each pass by PosToMask
+003A: 0001; -- LowerMask:  DW &B0000000001   ; overwritten each pass by PosToMask
+003B: 0000; -- MaskCount:  DW 0
+003C: 0000; -- MaskVal:    DW 0
+003D: 0001; -- One:        DW 1
+003E: 0001; -- Bit0:      DW &B0000000001
+003F: 0200; -- Bit9:      DW &B1000000000
+0040: 0004; -- Bit2:      DW &B0000000100
+[0041..07FF] : 0000; -- [empty memory]
+END;

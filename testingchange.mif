@@ -1,0 +1,19 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 9866; -- OUT sswChange
+0001: 8003; -- call Delay
+0002: 5800; -- jump loop
+0003: 9802; -- 	OUT    Timer
+0004: 9066; -- 	in sswChange
+0005: 9801; -- 	Out LEDs
+0006: 9002; -- 	IN     Timer
+0007: 37F6; -- 	ADDI   -10
+0008: 6004; -- 	JNEG   WaitingLoop
+0009: 8800; -- 	RETURN
+[000A..07FF] : 0000; -- [empty memory]
+END;

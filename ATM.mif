@@ -1,0 +1,51 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 9802; -- 	OUT		Timer
+0001: 801E; -- 	CALL	TimerWait
+0002: 9060; --     IN		sswPos
+0003: 1026; -- 	STORE	Balance
+0004: 9804; --     OUT		Hex0
+0005: 9060; -- 	IN		sswPos
+0006: 9866; -- 	OUT		sswChange	; Store current switch state in sswChange to compare with withdrawal
+0007: 9066; -- 	IN		sswChange
+0008: 7007; -- 	JZERO	AtmLoop		; If withdrawal amount is not changed, try again
+0009: 9802; -- 	OUT		Timer
+000A: 801E; -- 	CALL	TimerWait
+000B: 9060; -- 	IN		sswPos
+000C: 9866; -- 	OUT		sswChange	; Save new withdrawal amount then display on left
+000D: 9805; -- 	OUT		Hex1
+000E: 9061; -- 	IN		sswNeg
+000F: 2026; -- 	ADD 	Balance
+0010: 6014; -- 	JNEG	Overdraft
+0011: 1026; -- 	STORE	Balance		; No overdraft, update balance
+0012: 9804; -- 	OUT		Hex0
+0013: 5807; -- 	Jump	AtmLoop
+0014: 1801; -- 	LOADI	1
+0015: 1028; -- 	STORE	InOverdraft	; Set flag to loclk LEDs in alert mode
+0016: 0829; -- 	LOAD	AllLeds
+0017: 9801; -- 	OUT		LEDs		; Withdrawal error -- light all LEDs (wait 3 seconds then try again)
+0018: 9802; -- 	OUT		Timer
+0019: 801E; -- 	CALL	TimerWait
+001A: 1800; -- 	LOADI	0
+001B: 1028; -- 	STORE	InOverdraft
+001C: 9801; -- 	OUT		LEDs
+001D: 5807; -- 	JUMP	AtmLoop
+001E: 0828; -- 	LOAD	InOverdraft
+001F: 7822; -- 	JNZ		TimeLoop	; If overdraft, then LEDs will all be lit
+0020: 9060; -- 	IN		sswPos
+0021: 9801; -- 	OUT		LEDs
+0022: 9002; -- 	IN		Timer
+0023: 2827; -- 	SUB		Ticks
+0024: 601E; -- 	JNEG	TimerWait
+0025: 8800; -- 	RETURN
+0026: 0000; -- Balance:		DW	0
+0027: 001E; -- Ticks:			DW	30		; 30 ticks at 10 Hz = 3.0s
+0028: 0000; -- InOverdraft:	DW	0		; 0  = Normal LEDs, 1 = Overdraft alert
+0029: 03FF; -- AllLeds:		DW	&B0000001111111111
+[002A..07FF] : 0000; -- [empty memory]
+END;
