@@ -1,0 +1,20 @@
+# Quartus build caches and outputs
+db/
+incremental_db/
+output_files/
+greybox_tmp/
+*.qws
+*.rpt
+*.summary
+*.smsg
+*.jdi
+*.log
+
+# Backups, editor and OS temporary files
+*.bak
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db
+c5_pin_model_dump.txt
