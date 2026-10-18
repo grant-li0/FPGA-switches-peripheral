@@ -1,6 +1,6 @@
 # SCOMP Smart Switches
 
-An ECE 2031 FPGA project integrating a Smart Switches peripheral with the SCOMP processor. The peripheral computes values from the board's ten switches and exposes them through memory-mapped I/O instructions.
+ECE 2031 FPGA project integrating a Smart Switches peripheral with the SCOMP processor. The peripheral computes values from the board's ten switches and exposes them through memory-mapped I/O instructions.
 
 ## Layout
 
