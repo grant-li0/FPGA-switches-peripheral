@@ -47,7 +47,3 @@ The original `SCOMP.sdc` is empty and is preserved under `constraints/`. No timi
 - Omitted build databases, backup copies, workspace preferences, the generated IP report, and the pin-model dump.
 
 The CPU memory-image path is the only functional source setting changed during organization. HDL logic was not modified. File references were checked, but the reorganized project has not been compiled or tested in Quartus.
-
-## Attribution
-
-This project includes ECE 2031 SCOMP support material and generated Intel FPGA PLL files. Their inclusion does not imply original authorship of all files. Preserve existing notices and distinguish your peripheral/program contributions from supplied course infrastructure when describing the project.
